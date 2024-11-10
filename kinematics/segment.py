@@ -19,20 +19,18 @@ class Segment:
             self.b.y + (self.length * math.sin(self.angle))
         )
         
-    def align(self, c):
+    def align(self, c, surface):
         transformation = self.a - pygame.Vector2(c[0], c[1])
-        self.angle = math.atan(transformation.y / transformation.x) * 2
-        self.angle += math.pi
-        print(self.angle) 
+        self.angle = math.atan2(transformation.y, transformation.x)
            
     def anchor(self, c):
         self.b = pygame.Vector2(c[0], c[1])
         self.solveA()
         
-    def solve(self, c):
-        self.align(c)
+    def solve(self, c, surface):
+        self.align(c, surface)
         self.anchor(c)
         
     def draw(self, surface):
-        pygame.draw.circle(surface, (255, 255, 255), self.a, 3)
-        pygame.draw.circle(surface, (255, 255, 255), self.b, 3)
+        pygame.draw.circle(surface, (255, 0, 0), self.a, 3)
+        pygame.draw.circle(surface, (0, 255, 0), self.b, 3)

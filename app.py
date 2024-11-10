@@ -21,10 +21,12 @@ while running:
         if e.type == pygame.QUIT:
             running = False
             
-    sampleSegment.solve(pygame.mouse.get_pos())
+    sampleSegment.solve(pygame.mouse.get_pos(), screen)
     sampleSegment.draw(screen)
     
     pygame.display.update()
+    
+    clock.tick(60)
   
 # final
 pygame.quit()
