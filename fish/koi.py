@@ -3,8 +3,8 @@ import random
 import kinematics.segment as seg
 
 segmentSizes = [
-    [52, 15], 
-    [84, 20], 
+    [52, 15*2], 
+    [84, 20*2], 
     [64, 15], 
     [46, 15], 
     [22, 20], 
@@ -26,7 +26,7 @@ class KoiFish:
         self.pos = pygame.Vector2(random.randint(0, 900), random.randint(0, 900))
         for segmentSizeConfig in segmentSizes:
             self.segments.append(
-                seg.Segment(0, 0, 0, segmentSizeConfig[1], segmentSizeConfig[0])
+                seg.Segment(0, 0, 0, segmentSizes, segmentSizes.index(segmentSizeConfig))
             )
         
     def update(self, follow):
