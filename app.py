@@ -1,5 +1,5 @@
 import pygame
-import logicpoint as lp
+import fish.logicpoint as lp
 import kinematics.segment as seg
 
 # init
