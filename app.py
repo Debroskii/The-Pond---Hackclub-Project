@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((900, 900))
 clock = pygame.time.Clock()
 running = True
 
-testKoi = koi.KoiFish((255, 255, 255), 1)
+testKoi = koi.KoiFish((255, 255, 255), 0.5)
 
 # loop
 while running:

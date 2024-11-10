@@ -3,28 +3,28 @@ import math
 from pygame import gfxdraw
 
 
-class Segment:
+class Tail:
     a = pygame.Vector2()
     b = pygame.Vector2()
     angle = 0
-    sizes = []
-    index = 0
-    scale = 1
+    scale = 0
+    length = 0
     color = ()
+    body_color = ()
     
-    def __init__(self, x, y, angle, sizes, index, color, scale):
+    def __init__(self, x, y, angle, scale, color, body_color):
         self.a.update(x, y)
         self.angle = angle
-        self.sizes = sizes
-        self.index = index
-        self.color = color
         self.scale = scale
-        self.b.update(math.sin(angle) * self.sizes[self.index][1], math.cos(angle) * self.sizes[self.index][1])
+        self.length = 60 * scale
+        self.color = color
+        self.body_color = body_color
+        self.b.update(math.sin(angle) * self.length, math.cos(angle) * self.length)
         
     def solveA(self):
         self.a.update(
-            self.b.x + (self.sizes[self.index][1] * self.scale * math.cos(self.angle)),
-            self.b.y + (self.sizes[self.index][1] * self.scale * math.sin(self.angle))
+            self.b.x + (self.length * math.cos(self.angle)),
+            self.b.y + (self.length * math.sin(self.angle))
         )
         
     def align(self, c):
@@ -42,30 +42,17 @@ class Segment:
         self.anchor(c)
         
     def draw(self, surface):
-        a_radius = self.sizes[self.index][0]
-        b_radius = self.sizes[self.index][0]
-        
-        if self.index != len(self.sizes) - 1 and a_radius < self.sizes[self.index + 1][0]:
-            a_radius = self.sizes[self.index + 1][0]
-        
-        if self.index != 0 and b_radius < self.sizes[self.index - 1][0]:
-            b_radius = self.sizes[self.index - 1][0]
+        a_radius = 15 * self.scale
+        b_radius = 10 * self.scale
             
         a_radius /= 4
         b_radius /= 4
         
-        a_radius *= self.scale
-        b_radius *= self.scale
-        
         self.outline(surface, self.a, self.b, a_radius, b_radius)
-        pygame.draw.circle(surface, (255, 0, 0), self.a, 3)
-        pygame.draw.circle(surface, (0, 255, 0), self.b, 3)
-        
         gfxdraw.aacircle(surface, int(self.a.x), int(self.a.y), int(a_radius/1.025), self.color)
-        gfxdraw.aacircle(surface, int(self.b.x), int(self.b.y), int(b_radius/1.025), self.color)
-        
+        gfxdraw.aacircle(surface, int(self.b.x), int(self.b.y), int(b_radius/1.025), self.body_color)
         gfxdraw.filled_circle(surface, int(self.a.x), int(self.a.y), int(a_radius/1.025), self.color)
-        gfxdraw.filled_circle(surface, int(self.b.x), int(self.b.y), int(b_radius/1.025), self.color)
+        gfxdraw.filled_circle(surface, int(self.b.x), int(self.b.y), int(b_radius/1.025), self.body_color)
     
     def outline(self, surface, n: pygame.Vector2, m: pygame.Vector2, n_radius, m_radius):
         n1, n2 = n.copy(), n.copy()
