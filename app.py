@@ -26,11 +26,11 @@ while running:
         if e.type == pygame.QUIT:
             running = False
             
-    # testKoi.update(pygame.mouse.get_pos())
-    # testKoi.draw(screen)
+    testLogicPoint.update(clock.get_time(), testKoi.segments[0].angle)
+    testLogicPoint.draw(screen)        
     
-    testLogicPoint.update()
-    testLogicPoint.draw(screen)
+    testKoi.update((testLogicPoint.pos.x, testLogicPoint.pos.y))
+    testKoi.draw(screen)
     
     pygame.display.update()
     clock.tick(60)
