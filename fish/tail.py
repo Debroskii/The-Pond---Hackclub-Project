@@ -43,7 +43,7 @@ class Tail:
         
     def draw(self, surface):
         a_radius = 15 * self.scale
-        b_radius = 10 * self.scale
+        b_radius = 7.6 * self.scale
             
         a_radius /= 4
         b_radius /= 4
