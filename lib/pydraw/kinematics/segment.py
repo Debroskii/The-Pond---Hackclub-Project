@@ -4,22 +4,14 @@ from pygame import gfxdraw
 
 
 class Segment:
-    a = pygame.Vector2()
-    b = pygame.Vector2()
-    angle = 0
-    sizes = []
-    index = 0
-    scale = 1
-    color = ()
-    
     def __init__(self, x, y, angle, sizes, index, color, scale):
-        self.a.update(x, y)
+        self.a = pygame.Vector2(x, y)
         self.angle = angle
         self.sizes = sizes
         self.index = index
         self.color = color
         self.scale = scale
-        self.b.update(math.sin(angle) * self.sizes[self.index][1], math.cos(angle) * self.sizes[self.index][1])
+        self.b = pygame.Vector2(math.sin(angle) * self.sizes[self.index][1], math.cos(angle) * self.sizes[self.index][1])
         
     def solveA(self):
         self.a.update(

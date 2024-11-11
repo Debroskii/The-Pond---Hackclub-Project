@@ -4,22 +4,14 @@ from pygame import gfxdraw
 
 
 class Tail:
-    a = pygame.Vector2()
-    b = pygame.Vector2()
-    angle = 0
-    scale = 0
-    length = 0
-    color = ()
-    body_color = ()
-    
     def __init__(self, x, y, angle, scale, color, body_color):
-        self.a.update(x, y)
+        self.a = pygame.Vector2(x, y)
         self.angle = angle
         self.scale = scale
         self.length = 60 * scale
         self.color = color
         self.body_color = body_color
-        self.b.update(math.sin(angle) * self.length, math.cos(angle) * self.length)
+        self.b = pygame.Vector2(math.sin(angle) * self.length, math.cos(angle) * self.length)
         
     def solveA(self):
         self.a.update(
