@@ -3,6 +3,7 @@ import random
 import kinematics.segment as seg
 from fish.tail import Tail
 import math
+from fish.side_fins import SideFins
 
 segmentSizes = [
     [48, 20], 
@@ -20,6 +21,7 @@ class KoiFish:
     color = ()
     scale = 1
     segments = []
+    side_fins = []
     
     def __init__(self, color, scale):
         self.color = color
@@ -46,3 +48,5 @@ class KoiFish:
     def draw(self, surface):
         for segment in self.segments:
             segment.draw(surface);
+            if self.segments.index(segment) == 1:
+                SideFins.attach(surface, segment, 1, (self.color))
