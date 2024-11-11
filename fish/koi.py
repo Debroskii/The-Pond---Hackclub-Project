@@ -47,6 +47,8 @@ class KoiFish:
         
     def draw(self, surface):
         for segment in self.segments:
-            segment.draw(surface);
             if self.segments.index(segment) == 1:
-                SideFins.attach(surface, segment, 1, (self.color))
+                SideFins.attach(surface, segment, 1, self.color)
+            elif self.segments.index(segment) == 4:
+                SideFins.attach(surface, segment, 0.6, self.color)
+            segment.draw(surface);
