@@ -3,10 +3,10 @@ from lib.boa.math.kinematics.unconstrained.chain import UIKinematicsChain
 
 
 class ThePond:
-    sampleChain = UIKinematicsChain([30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30])
+    sampleChain = UIKinematicsChain([60, 60, 30, 50, 20])
     
     def update():
         ThePond.sampleChain.update()
     
     def draw(surface):
-        draw.draw_kine_chain(surface, ThePond.sampleChain)
+        draw.kine_chain(surface, ThePond.sampleChain)
