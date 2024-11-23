@@ -1,7 +1,7 @@
 import pygame
 
 from config.global_config import GLOBALCONFIG
-from game import ThePond
+from game_manager import ThePond
 
 pygame.init()
 pygame.display.set_caption("The Pond - HackClub Project")
