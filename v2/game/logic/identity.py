@@ -9,7 +9,7 @@ class Identity:
         
         self.traits = []
         
-    def init(self):
+    def generate(self):
         self.movement = [random.randint(25, 75) / 100, random.randint(25, 75) / 100, random.randint(25, 75) / 100] # Natural Speed, Acceleration Frequency, Path Variance
         self.food = [random.randint(25, 75) / 100, random.randint(25, 75) / 100, random.randint(15, 55) / 100] # Attentiveness, Pursuit Speed, Gluttony
         self.fear = [random.randint(25, 75) / 100] # Avoidance

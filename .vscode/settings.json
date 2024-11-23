@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./v2/game",
+        "./v2"
+    ]
+}

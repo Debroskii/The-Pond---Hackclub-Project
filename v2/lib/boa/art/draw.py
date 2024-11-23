@@ -42,3 +42,5 @@ class draw:
         points = [start1, start2, end1, end2]
         
         pygame.draw.polygon(surface, color, points)
+        pygame.draw.circle(surface, color, start, start_radius)
+        pygame.draw.circle(surface, color, end, end_radius)
