@@ -12,16 +12,13 @@ class Fish:
         self.color_config = color_config
         self.scale = scale
         self.traits = traits
-        self.kine_chain = UIKinematicsChain([30, 30, 30, 30, 30])
+        self.kine_chain = UIKinematicsChain([25, 20, 20, 20, 10, 0])
+        self.kine_sizes = [2, 5, 10, 12, 12, 10]
         
     def update(self, timestamp):
         self.path_entity.loop(timestamp)
-        self.kine_chain.update(
-            self.path_entity.pos + pygame.Vector2(
-                (math.cos(self.path_entity.heading + math.pi / 2) * math.sin(timestamp / 250)) * 35,
-                (math.sin(self.path_entity.heading + math.pi / 2) * math.sin(timestamp / 250)) * 35
-            ))
+        self.kine_chain.update(self.path_entity.affector_pos)
         
     def draw(self, surface):
-        draw.kine_chain(surface, self.kine_chain)
+        draw.kine_chain(surface, self.kine_chain, self.kine_sizes)
         self.path_entity.debug_draw(surface)
