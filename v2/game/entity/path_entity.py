@@ -8,6 +8,7 @@ import game_manager
 class PathEntity:
     def __init__(self):
         self.pos = pygame.Vector2(random.randint(0, GLOBALCONFIG.window_width), random.randint(0, GLOBALCONFIG.window_height))
+        self.affector_pos = self.pos
         self.target = pygame.Vector2((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
         self.heading = 0
         self.speed = 2
@@ -19,8 +20,12 @@ class PathEntity:
             math.sin(self.heading) * self.speed
         )
         
+        self.affector_pos = self.pos + pygame.Vector2(
+                (math.cos(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 10,
+                (math.sin(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 10
+        )
+        
         self.speed += (math.cos(time / 500)) * 0.01
-        print(self.speed)
                 
         if (self.target - self.pos).magnitude() <= 2:
             self.heading += random.uniform(-random.uniform(math.pi / 6, math.pi / 4), random.uniform(math.pi / 6, math.pi / 4))
