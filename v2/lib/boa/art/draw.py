@@ -10,12 +10,23 @@ class draw:
         pygame.draw.circle(surface, (255,255,255), link.trailing, 5)
         pygame.draw.line(surface, (255,255,255), link.leading, link.trailing)
         
-    def kine_chain(surface, chain: UIKinematicsChain):
+    def kine_chain(surface, chain: UIKinematicsChain, sizes):
         for link in chain.links:
-            if chain.links.index(link) == 0 or chain.links.index(link) == len(chain.links) - 1:
-                draw.multi_radii_line(surface, (255, 255, 255), link.leading, link.trailing, 10, 10)
+            if chain.links.index(link) == len(chain.links) - 1:
+                draw.multi_radii_line(
+                    surface, (255, 255, 255), link.leading, link.trailing, sizes[chain.links.index(link)], sizes[chain.links.index(link)])
+                print("Segment " + str(chain.links.index(link)) + "\t Radius " + str(sizes[chain.links.index(link)]))
             else:
-                draw.multi_radii_connection(surface, (255, 0, 255), link.leading, link.trailing, chain.links[chain.links.index(link) + 1].trailing, 10, 10)
+                draw.multi_radii_connection(
+                    surface, 
+                    (255, 255, 255), 
+                    link.trailing, 
+                    link.leading, 
+                    chain.links[(chain.links.index(link) + 1)].leading, 
+                    sizes[chain.links.index(link)], 
+                    sizes[chain.links.index(link) + 1],
+                    chain.links.index(link)
+                )
 
     def multi_radii_line(surface, color, start: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int):
         start1, start2 = start.copy(), start.copy()
@@ -47,10 +58,13 @@ class draw:
         pygame.draw.circle(surface, color, start, start_radius)
         pygame.draw.circle(surface, color, end, end_radius)
         
-    def multi_radii_connection(surface, color, start: pygame.Vector2, middle: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int):
+    def multi_radii_connection(surface, color, start: pygame.Vector2, middle: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int, index):
         middle_radius = start_radius
-        if start_radius < end_radius:
+        if start_radius >= end_radius:
             middle_radius = end_radius
+        else:
+            middle_radius = start_radius
+
+        print('Segment ' + str(index) + '\t Start Radius ' + str(start_radius) + '\t Middle Radius ' + str(middle_radius) + '\t End Radius ' + str(end_radius))
             
-        draw.multi_radii_line(surface, color, start, middle, start_radius, middle_radius)
-        draw.multi_radii_line(surface, color, middle, end, middle_radius, end_radius)
+        draw.multi_radii_line(surface, color, start, middle, start_radius, end_radius)
