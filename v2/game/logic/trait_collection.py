@@ -1,5 +1,5 @@
 from random import random
-from logic.trait import Trait
+from game.logic.trait import Trait
 
 
 class TraitCollection:

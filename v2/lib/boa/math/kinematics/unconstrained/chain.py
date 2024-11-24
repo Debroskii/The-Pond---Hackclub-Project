@@ -10,9 +10,9 @@ class UIKinematicsChain:
         for length in chain_lengths:
             self.links.append(Link(length, length, 0, length))
             
-    def update(self):
+    def update(self, leader):
         for link in self.links:
             if self.links.index(link) != len(self.links) - 1:
                 UIKinematicsSolver.solve(link, self.links[self.links.index(link) + 1])
             else:
-                UIKinematicsSolver.solveToVector(link, pygame.Vector2(pygame.mouse.get_pos()[0],pygame.mouse.get_pos()[1]))
+                UIKinematicsSolver.solveToVector(link, leader)

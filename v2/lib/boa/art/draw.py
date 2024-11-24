@@ -9,11 +9,13 @@ class draw:
         pygame.draw.circle(surface, (255,255,255), link.leading, 5)
         pygame.draw.circle(surface, (255,255,255), link.trailing, 5)
         pygame.draw.line(surface, (255,255,255), link.leading, link.trailing)
-
         
     def kine_chain(surface, chain: UIKinematicsChain):
         for link in chain.links:
-            draw.multi_radii_line(surface, (255, 255, 255), link.leading, link.trailing, 10, 10)
+            if chain.links.index(link) == 0 or chain.links.index(link) == len(chain.links) - 1:
+                draw.multi_radii_line(surface, (255, 255, 255), link.leading, link.trailing, 10, 10)
+            else:
+                draw.multi_radii_connection(surface, (255, 0, 255), link.leading, link.trailing, chain.links[chain.links.index(link) + 1].trailing, 10, 10)
 
     def multi_radii_line(surface, color, start: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int):
         start1, start2 = start.copy(), start.copy()
@@ -44,3 +46,11 @@ class draw:
         pygame.draw.polygon(surface, color, points)
         pygame.draw.circle(surface, color, start, start_radius)
         pygame.draw.circle(surface, color, end, end_radius)
+        
+    def multi_radii_connection(surface, color, start: pygame.Vector2, middle: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int):
+        middle_radius = start_radius
+        if start_radius < end_radius:
+            middle_radius = end_radius
+            
+        draw.multi_radii_line(surface, color, start, middle, start_radius, middle_radius)
+        draw.multi_radii_line(surface, color, middle, end, middle_radius, end_radius)

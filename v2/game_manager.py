@@ -1,15 +1,17 @@
-from entity.path_entity import PathEntity
+from game.entity.fish import Fish
 from lib.boa.art.draw import draw
 from lib.boa.math.kinematics.unconstrained.chain import UIKinematicsChain
 from config.global_config import GLOBALCONFIG
+from game.logic.trait_collection import TraitCollection
 
 class ThePond:
+    fish = Fish(0, 1, TraitCollection(1))
     
-    def update():
-        pass
+    def update(timestamp):
+        ThePond.fish.update(timestamp)
     
     def draw(surface):
-        pass
+        ThePond.fish.draw(surface)
         
     def out_of_logic_bounds(object):
         if object.x > GLOBALCONFIG.window_width + 200 or object.y > GLOBALCONFIG.window_height + 200:

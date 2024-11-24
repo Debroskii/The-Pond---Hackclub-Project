@@ -16,7 +16,7 @@ while running:
     
     main_surface.fill(0)
     
-    ThePond.update()
+    ThePond.update(pygame.time.get_ticks())
     ThePond.draw(main_surface)
     
     pygame.display.update()
