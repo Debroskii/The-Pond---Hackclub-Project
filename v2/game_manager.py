@@ -2,19 +2,18 @@ from game.entity.fish import Fish
 from lib.boa.art.draw import draw
 from lib.boa.math.kinematics.unconstrained.chain import UIKinematicsChain
 from config.global_config import GLOBALCONFIG
-from game.logic.trait_collection import TraitCollection
-from game.logic.motive.PondMotives import PondMotives
+from game.entity.path_entity import PathEntity
+from game.entity.group_path_entity import GroupPathEntity
 
-class ThePond:
-    fish = Fish(0, 1, TraitCollection(1))
+class GameManager:
+    debug_path_entity = GroupPathEntity()
     
     def update(timestamp):
-        # ThePond.fish.update(timestamp)
-        pass
+        GameManager.debug_path_entity.loop(timestamp)
+        # GameManager.debug_path_entity.console_debugging()
     
     def draw(surface):
-        # ThePond.fish.draw(surface)
-        PondMotives.debug_draw(surface)
+        GameManager.debug_path_entity.draw(surface)
         
     def out_of_logic_bounds(object):
         if object.x > GLOBALCONFIG.window_width + 200 or object.y > GLOBALCONFIG.window_height + 200:
