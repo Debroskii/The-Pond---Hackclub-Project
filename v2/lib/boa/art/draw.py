@@ -15,7 +15,7 @@ class draw:
             if chain.links.index(link) == len(chain.links) - 1:
                 draw.multi_radii_line(
                     surface, (255, 255, 255), link.leading, link.trailing, sizes[chain.links.index(link)], sizes[chain.links.index(link)])
-                print("Segment " + str(chain.links.index(link)) + "\t Radius " + str(sizes[chain.links.index(link)]))
+                # print("Segment " + str(chain.links.index(link)) + "\t Radius " + str(sizes[chain.links.index(link)]))
             else:
                 draw.multi_radii_connection(
                     surface, 
@@ -65,6 +65,6 @@ class draw:
         else:
             middle_radius = start_radius
 
-        print('Segment ' + str(index) + '\t Start Radius ' + str(start_radius) + '\t Middle Radius ' + str(middle_radius) + '\t End Radius ' + str(end_radius))
+        # print('Segment ' + str(index) + '\t Start Radius ' + str(start_radius) + '\t Middle Radius ' + str(middle_radius) + '\t End Radius ' + str(end_radius))
             
         draw.multi_radii_line(surface, color, start, middle, start_radius, end_radius)
