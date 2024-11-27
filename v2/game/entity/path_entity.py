@@ -11,10 +11,15 @@ class PathMode(Enum):
     WANDER = 0
     GROUP = 1
     EAT = 2
+    
+class EntityType(Enum):
+    INDIVIDUAL = 0
+    GROUP = 1
 
 class PathEntity:
-    def __init__(self):
+    def __init__(self, type: EntityType):
         self.mode: PathMode = PathMode.WANDER
+        self.type = type
         self.pos = pygame.Vector2(random.randint(0, GLOBALCONFIG.window_width), random.randint(0, GLOBALCONFIG.window_height))
         self.affector_pos = self.pos
         self.target = pygame.Vector2((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
@@ -35,7 +40,7 @@ class PathEntity:
         
         self.speed += (math.cos(time / 500)) * 0.01
                 
-        if (self.target - self.pos).magnitude() <= 2:
+        if (self.target - self.pos).magnitude() <= 2 and self.mode == PathMode.WANDER:
             self.heading += random.uniform(-random.uniform(math.pi / 6, math.pi / 4), random.uniform(math.pi / 6, math.pi / 4))
             self.target.update(
                 self.pos.x + math.cos(self.heading) * 250, 

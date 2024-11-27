@@ -2,13 +2,13 @@ import math
 import random
 
 import pygame
-from game.entity.path_entity import PathEntity
+from game.entity.path_entity import EntityType, PathEntity
 
 
 class GroupPathEntity:
     def __init__(self):
         self.lifetime = 0
-        self.path_entity = PathEntity()
+        self.path_entity = PathEntity(EntityType.GROUP)
         self.capacity = random.randint(2, 5)
         self.radius = self.capacity * 15
         self.follower_positions = []
@@ -17,7 +17,7 @@ class GroupPathEntity:
             theta = (random.randint(0, 200) / 100) * math.pi
             r = (random.randint(65, 100) / 100) * self.radius
             self.follower_positions.append(
-                [theta, r, random.randint(-1, 1) / 250] #Angle, radius, speed
+                [theta, r, random.randint(-2, 2) / 500] #Angle, radius, speed
             )
                 
     def loop(self, timestamp):
@@ -29,5 +29,8 @@ class GroupPathEntity:
     def draw(self, surface):
         self.path_entity.debug_draw(surface)
         pygame.draw.circle(surface, (255, 255, 255), self.path_entity.pos, self.radius, 1)
+        
+        pygame.draw.line(surface, (155, 155, 155), self.path_entity.pos, self.path_entity.target)
+        
         for pos in self.follower_positions:
-            pygame.draw.circle(surface, (255, 0, 0), self.path_entity.pos + pygame.Vector2(pos[1] * math.cos(pos[0]), pos[1] * math.sin(pos[0])), 5)
+            pygame.draw.circle(surface, (255, 255, 0), self.path_entity.pos + pygame.Vector2(pos[1] * math.cos(pos[0]), pos[1] * math.sin(pos[0])), 3)
