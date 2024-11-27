@@ -4,14 +4,12 @@ from game.entity.path_entity import PathEntity
 from lib.boa.art.draw import draw
 from lib.boa.math.kinematics.unconstrained.chain import UIKinematicsChain
 from lib.boa.math.kinematics.unconstrained.solver import UIKinematicsSolver
-from game.logic.trait_collection import TraitCollection
 
 class Fish:
-    def __init__(self, color_config, scale: float, traits: TraitCollection):
+    def __init__(self, color_config, scale: float):
         self.path_entity = PathEntity()
         self.color_config = color_config
         self.scale = scale
-        self.traits = traits
         self.kine_chain = UIKinematicsChain([25, 20, 20, 20, 5, 0])
         self.kine_sizes = [2, 5, 10, 12, 12, 10]
         
