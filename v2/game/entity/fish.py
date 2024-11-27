@@ -12,7 +12,7 @@ class Fish:
         self.color_config = color_config
         self.scale = scale
         self.traits = traits
-        self.kine_chain = UIKinematicsChain([25, 20, 20, 20, 10, 0])
+        self.kine_chain = UIKinematicsChain([25, 20, 20, 20, 5, 0])
         self.kine_sizes = [2, 5, 10, 12, 12, 10]
         
     def update(self, timestamp):
