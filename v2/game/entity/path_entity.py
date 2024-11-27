@@ -1,12 +1,20 @@
+from enum import Enum
 import math
 import random
 import pygame
 
 from config.global_config import GLOBALCONFIG
 import game_manager
+from lib.boa.art.draw import draw
+
+class PathMode(Enum):
+    WANDER = 0
+    GROUP = 1
+    EAT = 2
 
 class PathEntity:
     def __init__(self):
+        self.mode: PathMode = PathMode.WANDER
         self.pos = pygame.Vector2(random.randint(0, GLOBALCONFIG.window_width), random.randint(0, GLOBALCONFIG.window_height))
         self.affector_pos = self.pos
         self.target = pygame.Vector2((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
@@ -34,9 +42,34 @@ class PathEntity:
                 self.pos.y + math.sin(self.heading) * 250
             )
             
-            if game_manager.ThePond.out_of_logic_bounds(self.pos):
+            if game_manager.GameManager.out_of_logic_bounds(self.pos):
                 self.target.update((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
                 
     def debug_draw(self, surface):
         pygame.draw.circle(surface, (0, 255, 0), self.pos, 3)
         pygame.draw.circle(surface, (255, 0, 255), self.target, 3)
+        
+        draw.text(
+            surface, 
+            pygame.font.SysFont("Cascadia Code PL", 10),
+            "Entity",
+            (255, 255, 255),
+            self.pos + pygame.Vector2(-20, -20)
+        )
+        
+        draw.text(
+            surface, 
+            pygame.font.SysFont("Cascadia Code PL", 10),
+            "Target",
+            (255, 255, 255),
+            self.target + pygame.Vector2(-18, -20)
+        )
+        
+    def console_debugging(self):
+        target_mode_string = "\tTarget Mode: " + self.mode.name
+        target_string = "\tTarget: " + str(self.target)
+        position_string = "\tPosition: " + str(self.pos)
+        heading_string = "\tHeading (degrees): " + str(round((self.heading / math.pi) * 180, 2))
+        speed_string = "\tSpeed: " + str(round(self.speed, 2))
+        
+        print("<PATH ENTITY>" + target_mode_string + target_string + position_string + heading_string + speed_string)
