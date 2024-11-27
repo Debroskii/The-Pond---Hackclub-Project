@@ -68,3 +68,7 @@ class draw:
         # print('Segment ' + str(index) + '\t Start Radius ' + str(start_radius) + '\t Middle Radius ' + str(middle_radius) + '\t End Radius ' + str(end_radius))
             
         draw.multi_radii_line(surface, color, start, middle, start_radius, end_radius)
+        
+    def text(surface, font: pygame.font.Font, text, color, position):
+        text_surface = font.render(text, False, color)
+        surface.blit(text_surface, position)
