@@ -72,3 +72,17 @@ class draw:
     def text(surface, font: pygame.font.Font, text, color, position):
         text_surface = font.render(text, False, color)
         surface.blit(text_surface, position)
+        
+    def fract_circle(surface, color, position, radius, angle, span, resolution = 1):
+        points = [position]
+        for i in range(resolution):
+            span_amount = (span / resolution) * (resolution + 1 - i)
+            points.append(pygame.Vector2(position.x + math.cos(angle - span_amount) * radius, position.y + math.sin(angle - span_amount) * radius))
+            
+        points.append(pygame.Vector2(position.x + math.cos(angle) * radius, position.y + math.sin(angle) * radius))
+        
+        for i in range(resolution):
+            span_amount = (span / resolution) * i
+            points.append(pygame.Vector2(position.x + math.cos(angle + span_amount) * radius, position.y + math.sin(angle + span_amount) * radius))
+            
+        pygame.draw.polygon(surface, color, points)
