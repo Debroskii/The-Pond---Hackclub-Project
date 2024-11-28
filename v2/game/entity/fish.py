@@ -17,6 +17,6 @@ class Fish:
         self.path_entity.loop(timestamp)
         self.kine_chain.update(self.path_entity.affector_pos)
         
-    def draw(self, surface):
-        draw.kine_chain(surface, self.kine_chain, self.kine_sizes)
+    def draw(self, surface, texture):
+        draw.textured_kine_chain(surface, self.kine_chain, self.kine_sizes, texture)
         self.path_entity.debug_draw(surface)

@@ -1,5 +1,6 @@
 import math
 import pygame
+import pygame.gfxdraw
 from lib.boa.math.kinematics.unconstrained.chain import UIKinematicsChain
 from lib.boa.math.kinematics.link import Link
 
@@ -27,6 +28,54 @@ class draw:
                     sizes[chain.links.index(link) + 1],
                     chain.links.index(link)
                 )
+                
+    def textured_kine_chain(surface, chain: UIKinematicsChain, sizes, texture: pygame.Surface):
+        for link in chain.links:
+            if chain.links.index(link) == len(chain.links) - 1:
+                draw.textured_multi_radii_line(
+                    surface, texture, link.leading, link.trailing, sizes[chain.links.index(link)], sizes[chain.links.index(link)])
+                # print("Segment " + str(chain.links.index(link)) + "\t Radius " + str(sizes[chain.links.index(link)]))
+            else:
+                draw.textured_multi_radii_connection(
+                    surface, 
+                    texture, 
+                    link.trailing, 
+                    link.leading, 
+                    chain.links[(chain.links.index(link) + 1)].leading, 
+                    sizes[chain.links.index(link)], 
+                    sizes[chain.links.index(link) + 1],
+                    chain.links.index(link)
+                )
+                
+    def textured_multi_radii_line(surface, texture: pygame.Surface, start: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int):
+        start1, start2 = start.copy(), start.copy()
+        end1, end2 = end.copy(), end.copy()
+        
+        n_angle, m_angle = math.atan2((end - start).y, (end - start).x), math.atan2((start - end).y, (start - end).x)
+        
+        start1.update(
+            start.x + start_radius * math.cos(n_angle + math.pi/2), 
+            start.y + start_radius * math.sin(n_angle + math.pi/2)
+        )
+        start2.update(
+            start.x + start_radius * math.cos(n_angle - math.pi/2), 
+            start.y + start_radius * math.sin(n_angle - math.pi/2)
+        )
+        
+        end1.update(
+            end.x + end_radius * math.cos(m_angle + math.pi/2), 
+            end.y + end_radius * math.sin(m_angle + math.pi/2)
+        )
+        end2.update(
+            end.x + end_radius * math.cos(m_angle - math.pi/2), 
+            end.y + end_radius * math.sin(m_angle - math.pi/2)
+        )
+        
+        points = [start1, start2, end1, end2]
+        
+        pygame.draw.circle(surface, (255, 255, 255), start, start_radius)
+        pygame.draw.circle(surface, (255, 255, 255), end, end_radius)
+        pygame.gfxdraw.textured_polygon(surface, points, texture, 0, 0)
 
     def multi_radii_line(surface, color, start: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int):
         start1, start2 = start.copy(), start.copy()
@@ -57,6 +106,17 @@ class draw:
         pygame.draw.polygon(surface, color, points)
         pygame.draw.circle(surface, color, start, start_radius)
         pygame.draw.circle(surface, color, end, end_radius)
+        
+    def textured_multi_radii_connection(surface, texture: pygame.Surface, start: pygame.Vector2, middle: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int, index):
+        middle_radius = start_radius
+        if start_radius >= end_radius:
+            middle_radius = end_radius
+        else:
+            middle_radius = start_radius
+
+        # print('Segment ' + str(index) + '\t Start Radius ' + str(start_radius) + '\t Middle Radius ' + str(middle_radius) + '\t End Radius ' + str(end_radius))
+            
+        draw.textured_multi_radii_line(surface, texture, start, middle, start_radius, end_radius)
         
     def multi_radii_connection(surface, color, start: pygame.Vector2, middle: pygame.Vector2, end: pygame.Vector2, start_radius: int, end_radius: int, index):
         middle_radius = start_radius

@@ -10,6 +10,8 @@ pygame.display.set_caption("The Pond - HackClub Project")
 main_surface = pygame.display.set_mode((GLOBALCONFIG.window_width, GLOBALCONFIG.window_height))
 running: bool = True
 
+GameManager.init()
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
