@@ -20,9 +20,9 @@ class PathEntity:
     def __init__(self, type: EntityType):
         self.mode: PathMode = PathMode.WANDER
         self.type = type
-        self.pos = pygame.Vector2(random.randint(0, GLOBALCONFIG.window_width), random.randint(0, GLOBALCONFIG.window_height))
+        self.pos = pygame.Vector2((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
         self.affector_pos = self.pos
-        self.target = pygame.Vector2((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
+        self.target = self.pos + pygame.Vector2(random.randint(-20, 20), random.randint(-20, 20))
         self.heading = 0
         self.speed = 2
         
@@ -43,16 +43,19 @@ class PathEntity:
         if (self.target - self.pos).magnitude() <= 2 and self.mode == PathMode.WANDER:
             self.heading += random.uniform(-random.uniform(math.pi / 6, math.pi / 4), random.uniform(math.pi / 6, math.pi / 4))
             self.target.update(
-                self.pos.x + math.cos(self.heading) * 250, 
-                self.pos.y + math.sin(self.heading) * 250
+                self.pos.x + math.cos(self.heading) * 50, 
+                self.pos.y + math.sin(self.heading) * 50
             )
             
             if game_manager.GameManager.out_of_logic_bounds(self.pos):
-                self.target.update((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
+                self.target.update((GLOBALCONFIG.window_width / 2) + random.randint(-300, 300), (GLOBALCONFIG.window_height / 2) + random.randint(-300, 300))
                 
     def debug_draw(self, surface):
         pygame.draw.circle(surface, (0, 255, 0), self.pos, 3)
         pygame.draw.circle(surface, (255, 0, 255), self.target, 3)
+        pygame.draw.line(surface, (155, 155, 155), self.pos, self.target)
+        
+        # draw.fract_circle(surface, (105, 55, 55), self.pos, 1000, self.heading, math.pi / 1.25, 10)
         
         draw.text(
             surface, 
