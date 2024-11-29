@@ -43,8 +43,8 @@ class PathEntity:
         if (self.target - self.pos).magnitude() <= 2 and self.mode == PathMode.WANDER:
             self.heading += random.uniform(-random.uniform(math.pi / 6, math.pi / 4), random.uniform(math.pi / 6, math.pi / 4))
             self.target.update(
-                self.pos.x + math.cos(self.heading) * 50, 
-                self.pos.y + math.sin(self.heading) * 50
+                self.pos.x + math.cos(self.heading) * 150, 
+                self.pos.y + math.sin(self.heading) * 150
             )
             
             if game_manager.GameManager.out_of_logic_bounds(self.pos):
