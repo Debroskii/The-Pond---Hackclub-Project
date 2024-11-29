@@ -162,9 +162,9 @@ class draw:
         surface.blit(rotated_surf, rotated_surf.get_rect(center = target_rect.topleft))
         
         # Debug
-        pygame.draw.line(surface, (255, 0, 0), (target_rect.x, 0), (target_rect.x, 900), 2)
-        pygame.draw.line(surface, (255, 0, 0), (0, target_rect.y), (900, target_rect.y), 2)
-        pygame.draw.line(surface, (255, 0, 0), (0, 0), (900, 900), 2)
-        pygame.draw.line(surface, (255, 0, 0), (0, 900), (900, 0), 2)
+        # pygame.draw.line(surface, (255, 0, 0), (target_rect.x, 0), (target_rect.x, 900), 2)
+        # pygame.draw.line(surface, (255, 0, 0), (0, target_rect.y), (900, target_rect.y), 2)
+        # pygame.draw.line(surface, (255, 0, 0), (0, 0), (900, 900), 2)
+        # pygame.draw.line(surface, (255, 0, 0), (0, 900), (900, 0), 2)
 
-        pygame.draw.circle(surface, (0, 255, 0), (target_rect.x, target_rect.y), 5)
+        # pygame.draw.circle(surface, (0, 255, 0), (target_rect.x, target_rect.y), 5)
