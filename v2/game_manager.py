@@ -21,6 +21,7 @@ class GameManager:
     def draw(surface):
       for entity in GameManager.debug_path_entities:
         entity.draw(surface)
+        # entity.debug_draw(surface)
         
     def out_of_view_bounds(object):
       if object.x > GLOBALCONFIG.window_width or object.y > GLOBALCONFIG.window_height:
