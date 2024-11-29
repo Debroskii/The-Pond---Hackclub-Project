@@ -10,26 +10,25 @@ from lib.boa.art.pattern import Pattern
 
 class GameManager:
     debug_path_entities = []
-    pattern: Pattern
-    # test_pattern: Pattern
     
     for i in range(1):
       debug_path_entities.append(Fish(0, 1))
-      
-    def init():
-      # GameManager.test_pattern = Pattern(300)
-      GameManager.pattern = Pattern(300)
     
     def update(timestamp):
       for entity in GameManager.debug_path_entities:
         entity.update(timestamp)
-        # entity.console_debugging()
-        # return
     
     def draw(surface):
       for entity in GameManager.debug_path_entities:
-        entity.draw(surface, GameManager.pattern.draw(surface, (255, 255, 255), (168, 58, 50)))
-      # GameManager.test_pattern.draw(surface, pygame.Color(255, 255, 255), pygame.Color(168, 58, 50))
+        entity.draw(surface)
+        
+    def out_of_view_bounds(object):
+      if object.x > GLOBALCONFIG.window_width or object.y > GLOBALCONFIG.window_height:
+          return True
+      elif object.x < 0 or object.y < 0:
+          return True
+      else:
+          return False
         
     def out_of_logic_bounds(object):
         if object.x > GLOBALCONFIG.window_width + 200 or object.y > GLOBALCONFIG.window_height + 200:

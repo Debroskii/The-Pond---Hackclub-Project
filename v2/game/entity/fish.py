@@ -4,6 +4,7 @@ from game.entity.path_entity import EntityType, PathEntity
 from lib.boa.art.draw import draw
 from lib.boa.math.kinematics.unconstrained.chain import UIKinematicsChain
 from lib.boa.math.kinematics.unconstrained.solver import UIKinematicsSolver
+import game_manager
 
 class Fish:
     def __init__(self, color_config, scale: float):
@@ -17,6 +18,6 @@ class Fish:
         self.path_entity.loop(timestamp)
         self.kine_chain.update(self.path_entity.affector_pos)
         
-    def draw(self, surface, texture):
-        draw.textured_kine_chain(surface, self.kine_chain, self.kine_sizes, texture)
+    def draw(self, surface):
+        draw.kine_chain(surface, self.kine_chain, self.kine_sizes)
         self.path_entity.debug_draw(surface)
