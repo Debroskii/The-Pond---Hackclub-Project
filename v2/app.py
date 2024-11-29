@@ -19,8 +19,8 @@ while running:
     
     main_surface.fill(GLOBALCONFIG.window_color)
         
-    # GameManager.update(pygame.time.get_ticks())
-    # GameManager.draw(main_surface)
+    GameManager.update(pygame.time.get_ticks())
+    GameManager.draw(main_surface)
         
     pygame.display.update()
     pygame.time.Clock().tick(120)
