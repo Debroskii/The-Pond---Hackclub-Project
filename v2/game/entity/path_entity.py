@@ -34,8 +34,8 @@ class PathEntity:
         )
         
         self.affector_pos = self.pos + pygame.Vector2(
-                (math.cos(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 10,
-                (math.sin(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 10
+                (math.cos(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 7.5,
+                (math.sin(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 7.5
         )
         
         self.speed += (math.cos(time / 500)) * 0.01
