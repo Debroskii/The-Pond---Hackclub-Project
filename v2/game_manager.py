@@ -7,12 +7,13 @@ from game.entity.path_entity import EntityType, PathEntity
 from game.entity.group_path_entity import GroupPathEntity
 from game.entity.food_objective_entity import FoodObjectiveEntity
 from lib.boa.art.pattern import Pattern
+from game.art.fish_color_config import FishColorConfig
 
 class GameManager:
     debug_path_entities = []
     
     for i in range(1):
-      debug_path_entities.append(Fish(0, 1))
+      debug_path_entities.append(Fish(FishColorConfig((255, 245, 205), (225, 105, 75)), 1))
     
     def update(timestamp):
       for entity in GameManager.debug_path_entities:
