@@ -11,16 +11,16 @@ class draw:
         pygame.draw.circle(surface, (255,255,255), link.trailing, 5)
         pygame.draw.line(surface, (255,255,255), link.leading, link.trailing)
         
-    def kine_chain(surface, chain: UIKinematicsChain, sizes):
+    def kine_chain(surface, color, chain: UIKinematicsChain, sizes):
         for link in chain.links:
             if chain.links.index(link) == len(chain.links) - 1:
                 draw.multi_radii_line(
-                    surface, (255, 255, 255), link.leading, link.trailing, sizes[chain.links.index(link)], sizes[chain.links.index(link)])
+                    surface, color, link.leading, link.trailing, sizes[chain.links.index(link)], sizes[chain.links.index(link)])
                 # print("Segment " + str(chain.links.index(link)) + "\t Radius " + str(sizes[chain.links.index(link)]))
             else:
                 draw.multi_radii_connection(
                     surface, 
-                    (255, 255, 255), 
+                    color, 
                     link.trailing, 
                     link.leading, 
                     chain.links[(chain.links.index(link) + 1)].leading, 
