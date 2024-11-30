@@ -1,3 +1,5 @@
+import random
+from typing import List
 import pygame
 from game.entity.fish import Fish
 from lib.boa.art.draw import draw
@@ -10,19 +12,28 @@ from lib.boa.art.pattern import Pattern
 from game.art.fish_color_config import FishColorConfig
 
 class GameManager:
-    debug_path_entities = []
+    fish = []
+    groups = []
+    food_objectives = []
     
-    for i in range(1):
-      debug_path_entities.append(Fish(FishColorConfig((255, 245, 205), (225, 105, 75)), 1))
+    for i in range(GLOBALCONFIG.fish_count):
+      fish.append(Fish(FishColorConfig.random(), random.randint(50, 100) / 100))
     
     def update(timestamp):
-      for entity in GameManager.debug_path_entities:
-        entity.update(timestamp)
-    
+      for fish in GameManager.fish:
+        fish.update(timestamp)
+      for group in GameManager.groups:
+        group.loop(timestamp)
+        if group.has_expired(): 
+          group.dissolve()
+          GameManager.groups.remove(group)
+      
+      if random.randint(1, 300) == 1 and len(GameManager.groups) < GLOBALCONFIG.group_count:
+        GameManager.groups.append(GroupPathEntity())
+        
     def draw(surface):
-      for entity in GameManager.debug_path_entities:
-        entity.draw(surface)
-        # entity.debug_draw(surface)
+      for fish in GameManager.fish:
+        fish.draw(surface)
         
     def out_of_view_bounds(object):
       if object.x > GLOBALCONFIG.window_width or object.y > GLOBALCONFIG.window_height:

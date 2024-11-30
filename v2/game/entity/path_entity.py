@@ -20,36 +20,50 @@ class PathEntity:
     def __init__(self, type: EntityType):
         self.mode: PathMode = PathMode.WANDER
         self.type = type
-        self.pos = pygame.Vector2((GLOBALCONFIG.window_width / 2) + random.randint(-100, 100), (GLOBALCONFIG.window_height / 2) + random.randint(-100, 100))
+        self.pos = pygame.Vector2(random.randint(0, GLOBALCONFIG.window_width), random.randint(0, GLOBALCONFIG.window_width))
         self.affector_pos = self.pos
         self.target = self.pos + pygame.Vector2(random.randint(-20, 20), random.randint(-20, 20))
         self.heading = 0
-        self.speed = 2
+        self.seed = random.randint(0, 200) / 100 * math.pi
+        self.speed = 2 - (self.seed / math.pi / 2)
         
-    def loop(self, time):
+    def loop(self, time, path_entity_index, speed_modifier):
         self.heading = math.atan2((self.target - self.pos).y, (self.target - self.pos).x)
         self.pos += pygame.Vector2(
-            math.cos(self.heading) * self.speed, 
-            math.sin(self.heading) * self.speed
+            math.cos(self.heading) * self.speed * speed_modifier, 
+            math.sin(self.heading) * self.speed * speed_modifier
         )
         
         self.affector_pos = self.pos + pygame.Vector2(
-                (math.cos(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 7.5,
-                (math.sin(self.heading + math.pi / 2) * math.sin(time / 250)) * self.speed * 7.5
+                (math.cos(self.heading + math.pi / 2) * math.sin(time / 250 + self.seed)) * self.speed / 2 * 7.5 * speed_modifier,
+                (math.sin(self.heading + math.pi / 2) * math.sin(time / 250 + self.seed)) * self.speed / 2 * 7.5 * speed_modifier
         )
         
-        self.speed += (math.cos(time / 500)) * 0.01
-                
-        if (self.target - self.pos).magnitude() <= 2 and self.mode == PathMode.WANDER:
-            self.heading += random.uniform(-random.uniform(math.pi / 6, math.pi / 4), random.uniform(math.pi / 6, math.pi / 4))
-            self.target.update(
-                self.pos.x + math.cos(self.heading) * 150, 
-                self.pos.y + math.sin(self.heading) * 150
-            )
+        self.speed += (math.cos((time / 500) + self.seed)) * 0.01
+         
+        if self.mode == PathMode.WANDER:
+            if random.randint(0, 1000) == 1 and self.type == EntityType.INDIVIDUAL:
+                for group in game_manager.GameManager.groups:
+                    for pos in group.follower_positions:
+                        if pos[3] == False and self.mode == PathMode.WANDER:
+                            group.bind(group.follower_positions.index(pos), path_entity_index)
+                            self.update_bound_target(group.path_entity.pos + pygame.Vector2(pos[1] * math.cos(pos[0]), pos[1] * math.sin(pos[0])))
+                            self.mode = PathMode.GROUP
             
-            if game_manager.GameManager.out_of_logic_bounds(self.pos):
-                self.target.update((GLOBALCONFIG.window_width / 2) + random.randint(-300, 300), (GLOBALCONFIG.window_height / 2) + random.randint(-300, 300))
+            if (self.target - self.pos).magnitude() <= 2:
+                self.heading += random.uniform(-random.uniform(math.pi / 6, math.pi / 4), random.uniform(math.pi / 6, math.pi / 4))
+                self.target.update(
+                    self.pos.x + math.cos(self.heading) * 150, 
+                    self.pos.y + math.sin(self.heading) * 150
+                )
                 
+                if game_manager.GameManager.out_of_logic_bounds(self.pos):
+                    self.target.update((GLOBALCONFIG.window_width / 2) + random.randint(-300, 300), (GLOBALCONFIG.window_height / 2) + random.randint(-300, 300))
+              
+    def update_bound_target(self, target):
+        if self.mode != PathMode.WANDER:
+            self.target = target
+    
     def debug_draw(self, surface):
         pygame.draw.circle(surface, (0, 255, 0), self.pos, 3)
         pygame.draw.circle(surface, (255, 0, 255), self.target, 3)
@@ -60,7 +74,7 @@ class PathEntity:
         draw.text(
             surface, 
             pygame.font.SysFont("Cascadia Code PL", 10),
-            "Entity",
+            "Type: " + self.type.name + ", Mode: " + self.mode.name,
             (255, 255, 255),
             self.pos + pygame.Vector2(-20, -20)
         )
