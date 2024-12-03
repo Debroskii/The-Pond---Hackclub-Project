@@ -1,34 +1,33 @@
+import math
+import random
 import pygame
-from fish.engine import KoiEngine
-from game_config import GAMECONFIG
-from logic.logicpoint import LogicPoint
-from lib.pydraw.color.color_config import ColorConfig
-import lib.pydraw.kinematics.segment as seg
-import fish.koi as koi
 
-# init
+from config.global_config import GameConfig
+from game_manager import GameManager
+from lib.boa.art.draw import draw
+from game.entity.food_objective_entity import FoodObjectiveEntity
+
 pygame.init()
-pygame.display.set_caption("The Pond")
+pygame.display.set_caption("The Pond - HackClub Project")
 
-# core
-screen = pygame.display.set_mode((GAMECONFIG.width, GAMECONFIG.height))
-clock = pygame.time.Clock()
-running = True
+main_surface = pygame.display.set_mode((GameConfig.window_width, GameConfig.window_height), pygame.RESIZABLE)
+game_clock = pygame.time.Clock()
+dt = 0
+running: bool = True
 
-fishEngine = KoiEngine(10)
-
-# loop
 while running:
-    screen.fill(GAMECONFIG.background_color)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            GameManager.food_objectives.append(FoodObjectiveEntity(pygame.mouse.get_pos()))
     
-    for e in pygame.event.get():
-        if e.type == pygame.QUIT:
-            running = False   
-    
-    fishEngine.loop(pygame.time.get_ticks() / 1000, screen)
-    
+    main_surface.fill(GameConfig.window_color)
+        
+    GameManager.update(pygame.time.get_ticks(), 1)
+    GameManager.draw(main_surface)
+        
     pygame.display.update()
-    clock.tick(GAMECONFIG.frame_rate)
-  
-# final
+    game_clock.tick(60)
+    
 pygame.quit()
